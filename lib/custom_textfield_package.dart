@@ -40,6 +40,8 @@ class CustomTextField extends StatefulWidget {
     this.fieldPaddingRight = 10,
     this.fieldHeight,
     this.fieldWidth,
+    this.fieldTitleFontSize,
+    this.fieldTitleColor,
     this.onChanged,
   });
 
@@ -87,8 +89,11 @@ class CustomTextField extends StatefulWidget {
 
   final Color? fillColor;
   final Color? borderColor;
+  final Color? fieldTitleColor;
 
   final ValueChanged<String>? onChanged;
+
+  final double? fieldTitleFontSize;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -171,7 +176,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           child: Text(
             widget.fieldTitle,
-            style: TextStyle(),
+            style: TextStyle(
+                color: widget.fieldTitleColor,
+                fontSize: widget.fieldTitleFontSize),
           ),
         ),
       Container(
