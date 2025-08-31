@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({
-    super.key,
+  CustomTextField({
+    Key? key,
     required this.controller,
-    this.fieldTitle = '',
-    this.borderTitle = '',
+    this.title = '',
     this.hintText = '',
     this.labelText = '',
-    this.isOnlyTypeNumber = false,
+    this.onlyNumbers = false,
     this.isPassword = false,
-    this.isPasswordError = true,
+    this.showPasswordStrength = true,
+    this.isRequired = false,
     this.showBorder = false,
-    this.isDisable = false,
-    this.isActionDone = false,
-    this.isActionNext = false,
-    this.isActionSearch = false,
-    this.isActionSend = false,
-    this.isActionNewLine = false,
-    this.textInputText = false,
+    this.isDisabled = false,
+    this.actionDone = false,
+    this.actionNext = false,
+    this.actionSearch = false,
+    this.actionSend = false,
+    this.actionNewLine = false,
     this.textInputNumber = false,
     this.textInputPhone = false,
     this.textInputDatetime = false,
@@ -27,7 +26,7 @@ class CustomTextField extends StatefulWidget {
     this.textInputNone = false,
     this.fillColor,
     this.borderColor,
-    this.radius = 8,
+    this.borderRadius = 8,
     this.fieldMarginAll = 0,
     this.fieldMarginTop = 5,
     this.fieldMarginBottom = 5,
@@ -40,37 +39,46 @@ class CustomTextField extends StatefulWidget {
     this.fieldPaddingRight = 10,
     this.fieldHeight,
     this.fieldWidth,
-    this.fieldTitleFontSize,
-    this.fieldTitleColor,
+    this.titleFontSize,
+    this.titleColor,
     this.onChanged,
+    this.onActionDone,
+    this.onActionNext,
+    this.onActionSearch,
+    this.onActionSend,
+    this.onActionNewLine,
+    this.maxLines,
+    this.minLines,
+    this.maxLength,
+    this.minLength,
+    this.showLengthCounter = true,
   });
 
   final TextEditingController controller;
-  final String fieldTitle;
-  final String borderTitle;
+  final String title;
   final String hintText;
   final String labelText;
 
-  final bool isOnlyTypeNumber;
+  final bool onlyNumbers;
   final bool isPassword;
-  final bool isPasswordError;
+  final bool showPasswordStrength;
   final bool showBorder;
-  final bool isDisable;
+  final bool isDisabled;
+  final bool isRequired;
 
-  final bool isActionDone;
-  final bool isActionNext;
-  final bool isActionSearch;
-  final bool isActionSend;
-  final bool isActionNewLine;
+  final bool actionDone;
+  final bool actionNext;
+  final bool actionSearch;
+  final bool actionSend;
+  final bool actionNewLine;
 
-  final bool textInputText;
   final bool textInputNumber;
   final bool textInputPhone;
   final bool textInputDatetime;
   final bool textInputEmailAddress;
   final bool textInputNone;
 
-  final double radius;
+  final double borderRadius;
 
   final double fieldMarginAll;
   final double fieldMarginTop;
@@ -89,11 +97,37 @@ class CustomTextField extends StatefulWidget {
 
   final Color? fillColor;
   final Color? borderColor;
-  final Color? fieldTitleColor;
+  final Color? titleColor;
 
   final ValueChanged<String>? onChanged;
 
-  final double? fieldTitleFontSize;
+  final double? titleFontSize;
+
+  final VoidCallback? onActionDone;
+  final VoidCallback? onActionNext;
+  final VoidCallback? onActionSearch;
+  final VoidCallback? onActionSend;
+  final VoidCallback? onActionNewLine;
+
+  final int? maxLines;
+  final int? minLines;
+  final int? maxLength;
+  final int? minLength;
+  final bool showLengthCounter;
+
+  // CustomTextField.password({
+  //   Key? key,
+  //   required TextEditingController controller,
+  //   String title = 'Password',
+  //   String hintText = 'Enter password',
+  //   bool showPasswordStrength = true,
+  // }) : this(
+  //         controller: controller,
+  //         title: title,
+  //         hintText: hintText,
+  //         isPassword: true,
+  //         showPasswordStrength: showPasswordStrength,
+  //       );
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -112,6 +146,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   static Color orange = Colors.orange;
   static Color transparent = Colors.transparent;
   static Color black = Colors.black;
+  static Color grey = Colors.grey;
 
   @override
   void initState() {
@@ -166,7 +201,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (widget.fieldTitle.isNotEmpty)
+      if (widget.title.isNotEmpty)
         Padding(
           padding: EdgeInsets.only(
             left: widget.fieldMarginAll != 0
@@ -174,18 +209,29 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 : widget.fieldMarginLeft,
             top: widget.fieldMarginAll != 0 ? widget.fieldMarginAll : 0,
           ),
-          child: Text(
-            widget.fieldTitle,
-            style: TextStyle(
-                color: widget.fieldTitleColor,
-                fontSize: widget.fieldTitleFontSize),
+          child: RichText(
+            text: TextSpan(
+              text: widget.title,
+              style: TextStyle(
+                color: widget.titleColor ?? black,
+                fontSize: widget.titleFontSize,
+              ),
+              children: widget.isRequired
+                  ? [
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(color: red),
+                      ),
+                    ]
+                  : [],
+            ),
           ),
         ),
       Container(
         height: widget.fieldHeight ?? widget.fieldHeight,
         width: widget.fieldWidth ?? widget.fieldWidth,
         margin: widget.fieldMarginAll != 0
-            ? (widget.fieldTitle.isNotEmpty
+            ? (widget.title.isNotEmpty
                 ? EdgeInsets.only(
                     top: widget.fieldMarginTop,
                     bottom: widget.fieldMarginAll,
@@ -200,55 +246,75 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 right: widget.fieldMarginRight,
               ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius),
-            color: widget.fillColor != null ? widget.fillColor : transparent,
-            border: widget.showBorder ? Border.all() : null),
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          color: widget.fillColor != null ? widget.fillColor : transparent,
+        ),
         child: TextField(
           controller: _controller,
-          keyboardType: widget.isOnlyTypeNumber
+          keyboardType: widget.onlyNumbers
               ? TextInputType.numberWithOptions(decimal: false, signed: false)
-              : widget.textInputText
-                  ? TextInputType.text
-                  : widget.textInputNumber
-                      ? TextInputType.number
-                      : widget.textInputPhone
-                          ? TextInputType.phone
-                          : widget.textInputDatetime
-                              ? TextInputType.datetime
-                              : widget.textInputEmailAddress
-                                  ? TextInputType.emailAddress
-                                  : widget.textInputNone
-                                      ? TextInputType.none
-                                      : TextInputType.text,
+              : widget.textInputNumber
+                  ? TextInputType.number
+                  : widget.textInputPhone
+                      ? TextInputType.phone
+                      : widget.textInputDatetime
+                          ? TextInputType.datetime
+                          : widget.textInputEmailAddress
+                              ? TextInputType.emailAddress
+                              : widget.textInputNone
+                                  ? TextInputType.none
+                                  : TextInputType.text,
           obscureText: _obscureText,
           onChanged: (value) {
             widget.onChanged?.call(value);
             if (widget.isPassword) _checkPasswordStrength();
           },
-          inputFormatters: widget.isOnlyTypeNumber
+          inputFormatters: widget.onlyNumbers
               ? [FilteringTextInputFormatter.digitsOnly]
               : [],
-          textInputAction: widget.isActionDone
+          textInputAction: widget.actionDone
               ? TextInputAction.done
-              : widget.isActionNext
+              : widget.actionNext
                   ? TextInputAction.next
-                  : widget.isActionSearch
+                  : widget.actionSearch
                       ? TextInputAction.search
-                      : widget.isActionSend
+                      : widget.actionSend
                           ? TextInputAction.send
-                          : widget.isActionNewLine
+                          : widget.actionNewLine
                               ? TextInputAction.newline
                               : TextInputAction.none,
           onSubmitted: (_) {
-            if (widget.isActionDone) {
+            if (widget.onActionDone != null) {
+              widget.onActionDone!();
+            } else if (widget.onActionNext != null) {
+              widget.onActionNext!();
+            } else if (widget.onActionSearch != null) {
+              widget.onActionSearch!();
+            } else if (widget.onActionSend != null) {
+              widget.onActionSend!();
+            } else if (widget.onActionNewLine != null) {
+              widget.onActionNewLine!();
+            } else {
               FocusScope.of(context).unfocus();
-            } else if (widget.isActionNext) {
-              FocusScope.of(context).nextFocus();
-            } else if (widget.isActionSearch) {
-            } else if (widget.isActionSend) {}
+            }
           },
-          readOnly: widget.isDisable,
+          maxLines: widget.maxLines ?? 1,
+          minLines: widget.minLines,
+          maxLength: widget.maxLength,
+          buildCounter: widget.showLengthCounter
+              ? null
+              : (_,
+                      {required int currentLength,
+                      required int? maxLength,
+                      required bool isFocused}) =>
+                  null,
+          readOnly: widget.isDisabled,
           decoration: InputDecoration(
+            floatingLabelBehavior: widget.labelText.isNotEmpty
+                ? FloatingLabelBehavior.always
+                : FloatingLabelBehavior.never,
+            labelText: widget.labelText,
+            hintText: widget.hintText,
             contentPadding: widget.fieldPaddingAll != 0
                 ? EdgeInsets.only(
                     top: widget.fieldPaddingAll,
@@ -264,9 +330,34 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     left: widget.fieldPaddingLeft,
                     right: widget.fieldPaddingRight,
                   ),
-            border: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
+            border: (!widget.showBorder && widget.fillColor == null)
+                ? InputBorder.none
+                : OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    borderSide: BorderSide(
+                        color: (widget.showBorder && widget.isRequired)
+                            ? red
+                            : widget.fillColor ?? (widget.borderColor ?? grey)),
+                  ),
+            enabledBorder: (!widget.showBorder && widget.fillColor == null)
+                ? InputBorder.none
+                : OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    borderSide: BorderSide(
+                        color: (widget.showBorder && widget.isRequired)
+                            ? red
+                            : widget.fillColor ?? (widget.borderColor ?? grey)),
+                  ),
+            focusedBorder: (!widget.showBorder && widget.fillColor == null)
+                ? InputBorder.none
+                : OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    borderSide: BorderSide(
+                      color: (widget.showBorder && widget.isRequired)
+                          ? red
+                          : widget.fillColor ?? (widget.borderColor ?? grey),
+                    ),
+                  ),
             suffixIcon: widget.isPassword
                 ? GestureDetector(
                     child: Icon(
@@ -285,7 +376,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       if (widget.isPassword &&
           _strengthLabel.isNotEmpty &&
-          widget.isPasswordError)
+          widget.showPasswordStrength)
         Padding(
           padding: EdgeInsets.only(left: widget.fieldMarginLeft),
           child: Text(
@@ -299,6 +390,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           ),
         ),
+      if (widget.isRequired &&
+          !widget.showBorder &&
+          widget.title.isEmpty &&
+          !(widget.isPassword &&
+              _strengthLabel.isNotEmpty &&
+              widget.showPasswordStrength))
+        Padding(
+          padding: EdgeInsets.only(left: widget.fieldMarginLeft),
+          child: Text(
+            "This feild is required",
+            style: TextStyle(
+              color: red,
+            ),
+          ),
+        )
     ]);
   }
 }

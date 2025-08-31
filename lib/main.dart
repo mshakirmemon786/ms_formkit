@@ -47,31 +47,40 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             CustomTextField(
               controller: TextEditingController(),
+              showBorder: true,
+              labelText: "Name",
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              fillColor: Colors.green,
             ),
             CustomTextField(
               controller: TextEditingController(),
               showBorder: true,
-              fieldTitle: "Email",
-            ),
-            CustomTextField(
-              controller: TextEditingController(),
-              fillColor: Colors.grey,
-            ),
-            CustomTextField(
-              controller: TextEditingController(),
-              showBorder: true,
-              fieldTitle: "Email",
             ),
             CustomTextField(
               controller: TextEditingController(),
               showBorder: true,
               fieldMarginAll: 5,
-              fieldTitle: "Email",
+              title: "Email",
+              maxLength: 1000,
+              maxLines: 5,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              fillColor: Colors.grey.shade200,
+              title: "Name",
+              isRequired: true,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              isRequired: true,
+              showBorder: true,
             ),
             CustomTextField(
               controller: TextEditingController(),
               isPassword: true,
-              isPasswordError: false,
+              showPasswordStrength: false,
               showBorder: true,
               onChanged: (value) {
                 setState(() {
