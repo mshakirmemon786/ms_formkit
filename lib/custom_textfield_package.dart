@@ -27,16 +27,19 @@ class CustomTextField extends StatefulWidget {
     this.fillColor,
     this.borderColor,
     this.borderRadius = 8,
+
     this.fieldMarginAll = 0,
     this.fieldMarginTop = 5,
     this.fieldMarginBottom = 5,
     this.fieldMarginLeft = 5,
-    this.fieldMarginRight = 5,
+    this.fieldMarginRight = 5
+    ,
     this.fieldPaddingAll = 0,
     this.fieldPaddingTop = 0,
     this.fieldPaddingBottom = 0,
     this.fieldPaddingLeft = 10,
     this.fieldPaddingRight = 10,
+    
     this.fieldHeight,
     this.fieldWidth,
     this.titleFontSize,
@@ -52,6 +55,18 @@ class CustomTextField extends StatefulWidget {
     this.maxLength,
     this.minLength,
     this.showLengthCounter = true,
+    this.prefixIcon,
+    this.prefixIconSize,
+    this.prefixIconColor,
+    this.prefixAssetPath,
+    this.prefixAssetPathWidth,
+    this.prefixAssetPathHeight,
+    this.suffixAssetPath,
+    this.suffixAssetPathHeight,
+    this.suffixAssetPathWidth,
+    this.suffixIcon,
+    this.suffixIconSize,
+    this.suffixIconColor,
   });
 
   final TextEditingController controller;
@@ -114,6 +129,22 @@ class CustomTextField extends StatefulWidget {
   final int? maxLength;
   final int? minLength;
   final bool showLengthCounter;
+
+  final IconData? prefixIcon;
+  final double? prefixIconSize;
+  final Color? prefixIconColor;
+
+  final IconData? suffixIcon;
+  final double? suffixIconSize;
+  final Color? suffixIconColor;
+
+  final String? prefixAssetPath;
+  final double? prefixAssetPathHeight;
+  final double? prefixAssetPathWidth;
+
+  final String? suffixAssetPath;
+  final double? suffixAssetPathHeight;
+  final double? suffixAssetPathWidth;
 
   // CustomTextField.password({
   //   Key? key,
@@ -370,7 +401,60 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       });
                     },
                   )
-                : null,
+                : (widget.suffixIcon != null
+                    ? Icon(
+                        widget.suffixIcon,
+                        color: widget.suffixIconColor ?? black,
+                        size: widget.suffixIconSize,
+                      )
+                    : (widget.suffixAssetPath != null
+                        ? Image.asset(
+                            widget.suffixAssetPath!,
+                            width: widget.suffixAssetPathWidth,
+                            height: widget.suffixAssetPathHeight,
+                          )
+                        : null)),
+            prefixIcon: widget.prefixIcon != null
+                ? Icon(
+                    widget.prefixIcon,
+                    color: widget.prefixIconColor ?? black,
+                    size: widget.prefixIconSize,
+                  )
+                : (widget.prefixAssetPath != null
+                    ? Image.asset(
+                        widget.prefixAssetPath!,
+                        width: widget.prefixAssetPathWidth,
+                        height: widget.prefixAssetPathHeight,
+                      )
+                    : null),
+
+            // suffixIcon: widget.isPassword
+            //     ? GestureDetector(
+            //         child: Icon(
+            //           _obscureText ? Icons.visibility_off : Icons.visibility,
+            //           color: black,
+            //         ),
+            //         onTap: () {
+            //           setState(() {
+            //             _obscureText = !_obscureText;
+            //           });
+            //         },
+            //       )
+            //     : widget.suffixIcon != null
+            //         ? GestureDetector(
+            //             child: Icon(
+            //               widget.suffixIcon,
+            //               color: black,
+            //             ),
+            //             onTap: () {
+            //               setState(() {
+            //                 _obscureText = !_obscureText;
+            //               });
+            //             },
+            //           )
+            //         : widget.suffixAssetPath != null
+            //             ? Image.asset(widget.suffixAssetPath!)
+            //             : null,
           ),
         ),
       ),

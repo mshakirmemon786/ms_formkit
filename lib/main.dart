@@ -49,6 +49,19 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: TextEditingController(),
               showBorder: true,
               labelText: "Name",
+              suffixIcon: Icons.abc,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              showBorder: true,
+              labelText: "Name",
+              suffixAssetPath: "assets/icon.png",
+              fillColor: Colors.green,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              showBorder: true,
+              labelText: "Name",
             ),
             CustomTextField(
               controller: TextEditingController(),
