@@ -54,8 +54,21 @@ class _MyHomePageState extends State<MyHomePage> {
             CustomTextField(
               controller: TextEditingController(),
               showBorder: true,
-              labelText: "Name",
+              title: "Name",
               suffixAssetPath: "assets/icon.png",
+              fillColor: Colors.green,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              showBorder: true,
+              labelText: "Name",
+              prefixIcon: Icons.abc,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              showBorder: true,
+              title: "Name",
+              prefixAssetPath: "assets/icon.png",
               fillColor: Colors.green,
             ),
             CustomTextField(
@@ -77,6 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
               fieldMarginAll: 5,
               title: "Email",
               maxLength: 1000,
+              // fieldHeight: 300,
+              showLengthCounter: false,
               maxLines: 5,
             ),
             CustomTextField(
@@ -89,6 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: TextEditingController(),
               isRequired: true,
               showBorder: true,
+            ),
+            CustomTextField(
+              controller: TextEditingController(),
+              isRequired: true,
+              // showBorder: true,
             ),
             CustomTextField(
               controller: TextEditingController(),
