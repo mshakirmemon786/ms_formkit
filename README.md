@@ -1,16 +1,24 @@
 # ms_formkit
 
-A new Flutter project.
+A customizable and feature-rich Flutter text field widget for building professional forms quickly.  
 
-## Getting Started
+## ✨ Features
 
-This project is a starting point for a Flutter application.
+- Required field validation  
+- Password field with visibility toggle  
+- Password strength indicator  
+- Prefix & Suffix icons or asset images  
+- Custom margins, paddings, borders, and colors  
+- Input restrictions (only numbers, min/max length)  
+- Built-in length counter  
+- Keyboard action handling (`done`, `next`, `search`, `send`, `newline`)  
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📦 InstallationN
+N
+Add this package to your `pubspec.yaml`:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```yaml
+dependencies:
+  ms_formkit: ^1.0.0
