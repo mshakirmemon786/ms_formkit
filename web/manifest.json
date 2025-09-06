@@ -1,6 +1,6 @@
 {
-    "name": "custom_textfield_package",
-    "short_name": "custom_textfield_package",
+    "name": "ms_formkit",
+    "short_name": "ms_formkit",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
