@@ -1,6 +1,6 @@
 name: ms_formkit
 description: "A customizable Flutter form field toolkit with advanced features like password strength, required field validation, prefix/suffix icons, and more."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/mshakirmemon786/ms_formkit
 
 environment:
@@ -19,5 +19,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  assets:
-    - assets/icon.png
+  # assets:
+    # - assets/icon.png
